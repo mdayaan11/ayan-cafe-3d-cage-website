@@ -1,0 +1,37 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model MenuItem {
+  id    Int     @id @default(autoincrement)
+  name  String  @unique
+  desc  String?
+  price Float
+}
+
+model Location {
+  id      Int    @id @default(autoincrement)
+  name    String @unique
+  address String
+  phone   String
+}
+
+model ContactInfo {
+  id    Int    @id @default(autoincrement)
+  email String @unique
+  // Assuming this model stores the primary contact email for the cafe.
+  // If a contact form submission model is needed, it would be separate.
+}
+
+model BusinessHours {
+  id        Int     @id @default(autoincrement)
+  dayOfWeek String  @unique // e.g., "Monday", "Tuesday", "Sunday"
+  openTime  String  // e.g., "08:00" (using string for simplicity, can be DateTime if time calculations are needed)
+  closeTime String  // e.g., "20:00"
+  isClosed  Boolean @default(false) // True if the cafe is closed on this day
+}
